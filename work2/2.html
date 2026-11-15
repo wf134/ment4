@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function arrayToList(arr) {
+             let list = null;
+         // 从后往前扣，最先创建的 {value:3, rest:null} 就成了最后一个节点
+            for (let i = arr.length - 1; i >= 0; i--) {
+                list = { value: arr[i], rest: list };
+             }
+                return list;
+        }
+        console.log(arrayToList([10,20]));
+        function listToArray(list) {
+            const arr = [];
+            for (let node = list; node; node = node.rest) {   // node 为 null 时循环自动停
+                arr.push(node.value);
+            }
+            return arr;
+        }
+        console.log(listToArray(arrayToList([10, 20, 30])));
+        function prepend(element, list) {
+            return { value: element, rest: list };            // 只加一层，原列表不动
+        }
+        console.log(prepend(10, prepend(20, null)));
+        function nth(list, n) {
+            if (!list) return undefined;   // 越界：走到 null 了
+            if (n === 0) return list.value;
+            return nth(list.rest, n - 1);  // 递归前进一层，n 减一
+        }
+        console.log(nth(arrayToList([10, 20, 30]), 1));
+    </script>
+</body>
+</html>
